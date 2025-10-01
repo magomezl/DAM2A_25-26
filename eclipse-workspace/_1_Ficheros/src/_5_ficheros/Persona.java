@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Persona implements Serializable {
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4066745137151173415L;
 	private StringBuilder nombre;
 	private StringBuilder apellido1;
 	private StringBuilder apellido2;
