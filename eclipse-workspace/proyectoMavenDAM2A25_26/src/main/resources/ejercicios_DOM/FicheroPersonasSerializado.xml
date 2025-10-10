@@ -2,8 +2,14 @@
 <personas>
     <persona>
         <nombre>Lucia</nombre>
+        <apellido1>Gómez</apellido1>
+        <apellido2>López</apellido2>
+        <nacimiento>2000-12-12</nacimiento>
     </persona>
     <persona>
         <nombre>Felipe</nombre>
+        <apellido1>Gómez</apellido1>
+        <apellido2>Borrego</apellido2>
+        <nacimiento>2020-12-21</nacimiento>
     </persona>
 </personas>

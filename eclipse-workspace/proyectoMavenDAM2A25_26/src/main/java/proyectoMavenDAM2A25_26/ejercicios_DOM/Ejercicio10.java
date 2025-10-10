@@ -26,10 +26,7 @@ import org.w3c.dom.Text;
 import _5_ficheros.Persona;
 import proyectoMavenDAM2A25_26.utilidades.Utilidades;
 
-
-
 public class Ejercicio10 {
-//	private final static String DOCTRABAJO_IN = Utilidades.getRuta() + Utilidades.getRutaDom() + "SerializaPersona";
 	private final static String DOCTRABAJO_IN =  "/resources/serializaPersona";
 	private final static String DOCTRABAJO_OUT = Utilidades.getRuta() + Utilidades.getRutaDom() 
 	+ "FicheroPersonasSerializado.xml";
@@ -40,12 +37,6 @@ public class Ejercicio10 {
 		
 		try (ObjectInputStream oIS = new ObjectInputStream(
 				Ejercicio10.class.getResourceAsStream(DOCTRABAJO_IN))){
-				if (oIS == null) {
-					System.out.println("No se encuentra el recurso");
-				}
-				
-//				new FileInputStream
-//				(new File(DOCTRABAJO_IN)))){
 			
 			DocumentBuilder dB = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			doc = dB.newDocument();
@@ -60,12 +51,10 @@ public class Ejercicio10 {
 			while(true) {
 				persona = (Persona) oIS.readObject();
 				Element elementoPersona = doc.createElement("persona");
-			
-				Element elem = doc.createElement("nombre");
-				Text texto = doc.createTextNode(persona.getNombre().toString());
-				elementoPersona.appendChild(elem);
-				elem.appendChild(texto);
-				//....
+				CreaElemento("nombre", persona.getNombre().toString(), elementoPersona, doc);
+				CreaElemento("apellido1", persona.getApellido1().toString(), elementoPersona, doc);
+				CreaElemento("apellido2", persona.getApellido2().toString(), elementoPersona, doc);
+				CreaElemento("nacimiento", persona.getNacimiento().toString(), elementoPersona, doc);
 				elementoRaiz.appendChild(elementoPersona);
 			}
 		}catch (EOFException e) {
@@ -88,6 +77,20 @@ public class Ejercicio10 {
 			e.printStackTrace();
 		}
 
+	}
+	/**
+	 * Crea la etiqueta XML con su contenido textual y lo añade a su etiqueta padre
+	 * @param etiqueta nombre de la etiqueta XML a crear
+	 * @param contenidoEtiqueta contenido textual de la etiqueta con nombre etiqueta
+	 * @param padre elemento padre del que estamos creando con nombre etiqueta
+	 * @param documentoDOM documento DOM en memoria donde creamos todos los elementos: etiqueta y nodo de texto
+	 */
+
+	private static void CreaElemento(String etiqueta, String contenidoEtiqueta, Element padre, Document documentoDOM) {
+		Element elem = documentoDOM.createElement(etiqueta);
+		Text texto = documentoDOM.createTextNode(contenidoEtiqueta);
+		padre.appendChild(elem);
+		elem.appendChild(texto);
 	}
 
 }
