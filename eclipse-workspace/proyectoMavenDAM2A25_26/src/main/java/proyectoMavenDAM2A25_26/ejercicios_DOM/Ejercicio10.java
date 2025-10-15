@@ -92,5 +92,4 @@ public class Ejercicio10 {
 		padre.appendChild(elem);
 		elem.appendChild(texto);
 	}
-
 }
