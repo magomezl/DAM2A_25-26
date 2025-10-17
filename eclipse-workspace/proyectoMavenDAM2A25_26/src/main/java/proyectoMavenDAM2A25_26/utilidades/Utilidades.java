@@ -9,6 +9,7 @@ public class Utilidades {
 
 	private final static String RUTA_DOM = "ejercicios_DOM" + System.getProperty("file.separator");
 	private final static String RUTA_SAX = "ejercicios_SAX" + System.getProperty("file.separator");
+	private final static String RUTA_EXCEL = "ejercicios_Excel_POI" + System.getProperty("file.separator");
 	
 	public static String getRuta() {
 		return RUTA;
@@ -16,6 +17,10 @@ public class Utilidades {
 
 	public static String getRutaDom() {
 		return RUTA_DOM;
+	}
+
+	public static String getRutaExcel() {
+		return RUTA_EXCEL;
 	}
 
 	public static String getRutaSax() {
