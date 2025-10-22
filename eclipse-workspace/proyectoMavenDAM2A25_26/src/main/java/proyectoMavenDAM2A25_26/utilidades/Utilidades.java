@@ -10,6 +10,8 @@ public class Utilidades {
 	private final static String RUTA_DOM = "ejercicios_DOM" + System.getProperty("file.separator");
 	private final static String RUTA_SAX = "ejercicios_SAX" + System.getProperty("file.separator");
 	private final static String RUTA_EXCEL = "ejercicios_Excel_POI" + System.getProperty("file.separator");
+	private final static String RUTA_XML_XSL = "ejercicio_13_Transformaciones_XML_XSL" + System.getProperty("file.separator");
+	private final static String RUTA_XSTREAM = "ejercicio_14_XSTREAM" + System.getProperty("file.separator");
 	
 	public static String getRuta() {
 		return RUTA;
@@ -26,5 +28,15 @@ public class Utilidades {
 	public static String getRutaSax() {
 		return RUTA_SAX;
 	}
+
+	public static String getRutaXmlXsl() {
+		return RUTA_XML_XSL;
+	}
+
+	public static String getRutaXstream() {
+		return RUTA_XSTREAM;
+	}
+	
+	
 	
 }

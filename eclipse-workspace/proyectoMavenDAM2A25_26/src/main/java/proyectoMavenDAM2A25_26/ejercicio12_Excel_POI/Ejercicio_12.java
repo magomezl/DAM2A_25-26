@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -16,13 +17,21 @@ import proyectoMavenDAM2A25_26.utilidades.Utilidades;
 
 public class Ejercicio_12 {
 	private final static String DOCTRABAJO_IN = "vehiculosElectricos.xlsx";
-	
+	private Workbook wb;
 
 	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
 			buscarEstacionesPorOperador("Wenea");
-//			buscarEstacionesPorProvincia("salamanca");
-//			buscarEstacionesPorProvincia("valladolid");
-//			modificaOperador("EasyCharger", "EasyChargerEasyCharger");
+			String provincia = new String("zamora");
+			try {
+				buscarEstacionesPorProvincia(false, provincia);
+			} catch (IllegalArgumentException e) {
+				System.out.println("Ya se han encontrado los datos de " + provincia + "¿Desea sobreescribir? (S/N): ");
+				if (sc.next().toUpperCase().equals("S")){
+					buscarEstacionesPorProvincia(true, provincia);
+				}
+			}
+			modificaOperador("EasyChargerEasyCharger", "EasyCharger");
 	}
 
 	private static void modificaOperador(String operadorOld, String operadorNew) {
@@ -33,13 +42,12 @@ public class Ejercicio_12 {
 			for (Row fila : hoja) {
 				Cell celdaBusqueda = fila.getCell(2);
 				if (celdaBusqueda!=null) {
-					if (celdaBusqueda.getStringCellValue().toLowerCase().contains(operadorOld.toLowerCase())) {
+					if (celdaBusqueda.getStringCellValue().toLowerCase().equals(operadorOld.toLowerCase())) {
 						celdaBusqueda.setCellValue(operadorNew);
 					}
 				}
 			}
 			wb.write(new FileOutputStream(Utilidades.getRuta() + Utilidades.getRutaExcel() + DOCTRABAJO_IN));
-			
 		} catch (FileNotFoundException e) {
 			System.out.println("Documento no encontrado");
 			e.printStackTrace();
@@ -48,10 +56,20 @@ public class Ejercicio_12 {
 			e.printStackTrace();
 		}
 	}
-
-	private static void buscarEstacionesPorProvincia(String provincia) {
+	/**
+	 * Este método se puede hacer de manera más simple comprobando la existencia de la hoja al principio y haciendo la pregunta 
+	 * correspondiente de sobreescribir o no, pero lo dejamos así para practicar el throws  
+	 * @param eliminar
+	 * @param provincia
+	 * @throws IllegalArgumentException
+	 */
+	private static void buscarEstacionesPorProvincia(boolean eliminar, String provincia) throws IllegalArgumentException{
 		try (FileInputStream fis = new FileInputStream(Utilidades.getRuta() + Utilidades.getRutaExcel() + DOCTRABAJO_IN);
 				Workbook wb = new XSSFWorkbook(fis)){
+			if (eliminar) {
+				wb.removeSheetAt(wb.getSheetIndex(wb.getSheet(provincia)));
+			}
+			
 			Sheet hoja = wb.getSheetAt(0);
 			Sheet newHoja = wb.createSheet(provincia);
 			
@@ -85,7 +103,6 @@ public class Ejercicio_12 {
 			System.out.println("Error de lectura/escritura");
 			e.printStackTrace();
 		}
-		
 	}
 
 	private static void buscarEstacionesPorOperador(String operador) {
