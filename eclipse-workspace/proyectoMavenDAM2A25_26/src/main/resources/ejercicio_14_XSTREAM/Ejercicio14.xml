@@ -1,0 +1,32 @@
+<familia>
+  <miembro nombre="Lucia">
+    <primerApellido>Gómez</primerApellido>
+    <segundoApellido>López</segundoApellido>
+    <nacimiento>2000-12-12</nacimiento>
+  </miembro>
+  <miembro nombre="Felipe">
+    <primerApellido>Gómez</primerApellido>
+    <segundoApellido>Borrego</segundoApellido>
+    <nacimiento>2020-12-21</nacimiento>
+  </miembro>
+  <miembro nombre="Alfonso">
+    <primerApellido>Gomez</primerApellido>
+    <segundoApellido>Lopez</segundoApellido>
+    <nacimiento>2000-10-10</nacimiento>
+  </miembro>
+  <miembro nombre="Felipe">
+    <primerApellido>Gómez</primerApellido>
+    <segundoApellido>Borrego</segundoApellido>
+    <nacimiento>2020-12-21</nacimiento>
+  </miembro>
+  <miembro nombre="Rebeca">
+    <primerApellido>Perez</primerApellido>
+    <segundoApellido>SanJose</segundoApellido>
+    <nacimiento>2003-10-12</nacimiento>
+  </miembro>
+  <miembro nombre="Felipe">
+    <primerApellido>Gómez</primerApellido>
+    <segundoApellido>Borrego</segundoApellido>
+    <nacimiento>2020-12-21</nacimiento>
+  </miembro>
+</familia>

@@ -19,17 +19,17 @@ public class _5_Ejercicio {
 	private static ObjectOutputStream oOS =null;
 	
 	public static void main(String[] args) {
-		inicializar();
-		escribirObjeto(obtenerDatos());
-		escribirObjeto(new Persona(new StringBuilder("Felipe"), new StringBuilder("Gómez"), 
-				new StringBuilder("Borrego"), LocalDate.of(2020, 12, 21)));
-		System.out.println("El fichero contiene " + leerObjetos() + " elementos");
+		oOS =inicializar(Utilidades.RUTA+DOCTRABAJO);
+//		escribirObjeto(oOS, obtenerDatos());
+//		escribirObjeto(oOS, new Persona(new StringBuilder("Felipe"), new StringBuilder("Gómez"), 
+//				new StringBuilder("Borrego"), LocalDate.of(2020, 12, 21)));
+		System.out.println("El fichero contiene " + leerObjetos(Utilidades.RUTA+DOCTRABAJO) + " elementos");
 		
 	}
 
-	private static void inicializar() {
+	public static ObjectOutputStream inicializar(String ruta) {
 		try {
-			File file = new File(Utilidades.RUTA+DOCTRABAJO);
+			File file = new File(ruta);
 			 if (file.exists() && file.length()>0) {
 //				oOS = new MyObjectOutputStream(new FileOutputStream(file, true));
 //				En este caso, la clase MyObjectOutputStream sería innecesaria 
@@ -49,13 +49,13 @@ public class _5_Ejercicio {
 			System.out.println("Error de entrada/salida");
 			e.printStackTrace();
 		}
-		
+		return oOS;
 	}
 
-	private static int leerObjetos() {
+	public static int leerObjetos(String ruta) {
 		int contador = 0;
 		try (ObjectInputStream oIS = new ObjectInputStream(new FileInputStream
-				(new File(Utilidades.RUTA+DOCTRABAJO)))){
+				(new File(ruta)))){
 
 			while(true) {
 				System.out.println((Persona) oIS.readObject());
@@ -69,7 +69,7 @@ public class _5_Ejercicio {
 		return contador; 
 	}
 
-	private static void escribirObjeto(Persona persona) {
+	public static void escribirObjeto(ObjectOutputStream oOS,  Persona persona) {
 		try {
 		    oOS.writeObject(persona);
 		} catch (IOException e) {
@@ -77,7 +77,7 @@ public class _5_Ejercicio {
 		}
 	}
 
-	private static Persona obtenerDatos() {
+	public static Persona obtenerDatos() {
 		Persona persona = new Persona();
 		System.out.println("DATOS DEL USUARIO \nNombre:");
         persona.setNombre(new StringBuilder(sc.nextLine()));
