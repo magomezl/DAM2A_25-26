@@ -42,7 +42,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ut2_ejercicio17.controlador.Controller">
    <children>
       <TabPane prefHeight="398.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -52,22 +52,22 @@
                      <children>
                         <VBox layoutX="7.0" layoutY="6.0" prefHeight="338.0" prefWidth="628.0">
                            <children>
-                              <TableView prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="tablaDepartamentos" prefHeight="200.0" prefWidth="200.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="ID" />
-                                  <TableColumn prefWidth="75.0" text="Nombre" />
-                                    <TableColumn prefWidth="75.0" text="Localidad" />
+                                  <TableColumn fx:id="colIdDpto" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="colNombreDpto" prefWidth="75.0" text="Nombre" />
+                                    <TableColumn fx:id="colLocalidadDpto" prefWidth="75.0" text="Localidad" />
                                 </columns>
                               </TableView>
                               <HBox prefHeight="42.0" prefWidth="628.0">
                                  <children>
-                                    <TextField prefHeight="25.0" prefWidth="206.0" promptText="Nombre de Departamento" />
-                                    <TextField layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="219.0" promptText="Localidad del Departamento" />
+                                    <TextField fx:id="txtNombreDpto" prefHeight="25.0" prefWidth="206.0" promptText="Nombre de Departamento" />
+                                    <TextField fx:id="txtLocalidadDpto" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="219.0" promptText="Localidad del Departamento" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Añadir Departamento" />
+                                    <Button mnemonicParsing="false" onAction="#guardarDepartamento" text="Añadir Departamento" />
                                     <Button mnemonicParsing="false" text="Modificar Departamento" />
                                     <Button mnemonicParsing="false" text="Eliminar Departamento" />
                                  </children>
