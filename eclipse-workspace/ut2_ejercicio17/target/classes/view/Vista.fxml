@@ -52,11 +52,11 @@
                      <children>
                         <VBox layoutX="7.0" layoutY="6.0" prefHeight="338.0" prefWidth="628.0">
                            <children>
-                              <TableView fx:id="tablaDepartamentos" prefHeight="200.0" prefWidth="200.0">
+                              <TableView prefHeight="200.0" prefWidth="200.0">
                                 <columns>
-                                  <TableColumn fx:id="colIdDpto" prefWidth="75.0" text="ID" />
-                                  <TableColumn fx:id="colNombreDpto" prefWidth="75.0" text="Nombre" />
-                                    <TableColumn fx:id="colLocalidadDpto" prefWidth="75.0" text="Localidad" />
+                                  <TableColumn prefWidth="75.0" text="ID" />
+                                  <TableColumn prefWidth="75.0" text="Nombre" />
+                                    <TableColumn prefWidth="75.0" text="Localidad" />
                                 </columns>
                               </TableView>
                               <HBox prefHeight="42.0" prefWidth="628.0">
