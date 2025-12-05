@@ -1,5 +1,5 @@
 package modelo.dto;
-// Generated 3 dic 2025, 13:37:40 by Hibernate Tools 6.5.1.Final
+// Generated 5 dic 2025, 9:20:21 by Hibernate Tools 6.5.1.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,5 +54,12 @@ public class Departamentos implements java.io.Serializable {
 	public void setEmpleadoses(Set empleadoses) {
 		this.empleadoses = empleadoses;
 	}
+
+	@Override
+	public String toString() {
+		return "\n\tDepartamentos [deptNo=" + deptNo + ", dnombre=" + dnombre + ", loc=" + loc + "]";
+	}
+	
+	
 
 }
