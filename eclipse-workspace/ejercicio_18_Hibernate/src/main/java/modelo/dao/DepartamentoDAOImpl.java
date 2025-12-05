@@ -34,4 +34,45 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 		return lista;
 	}
 
+	@Override
+	public void modificarDpto(Departamentos dptoOld, Departamentos dptoNew) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modificarDpto(int dptoOld, Departamentos dptoNew) {
+		sesion = sF.openSession();
+		Transaction t = sesion.beginTransaction();
+		Departamentos dpto = sesion.get(Departamentos.class, dptoOld);
+		dpto.setDnombre(dptoNew.getDnombre());
+		dpto.setLoc(dptoNew.getLoc());
+		sesion.merge(dpto);
+		t.commit();
+		sesion.close();
+	}
+
+	@Override
+	public void eliminarDpto(int dptoOld) {
+		sesion = sF.openSession();
+		Transaction t = sesion.beginTransaction();
+		Departamentos dpto = sesion.get(Departamentos.class, dptoOld);
+		sesion.remove(dpto);
+		t.commit();
+		sesion.close();
+	}
+
+	@Override
+	public List<Departamentos> listarDptos(String localidad) {
+		sesion = sF.openSession();
+		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad", Departamentos.class)
+				.setParameter("localidad", localidad);
+		
+		List<Departamentos> lista = consulta.getResultList();
+		sesion.close();
+		return lista;
+	}
+
+	
+
 }
