@@ -17,12 +17,12 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 	
 	@Override
 	public void anadirDpto(Departamentos dpto) {
+		// No dejar añadir departamento con mismo nombre y localidad
 		sesion = sF.openSession();
 		Transaction t = sesion.beginTransaction();
 		sesion.persist(dpto);
 		t.commit();
 		sesion.close();
-		
 	}
 
 	@Override
@@ -33,13 +33,51 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 		sesion.close();
 		return lista;
 	}
-
+	
 	@Override
-	public void modificarDpto(Departamentos dptoOld, Departamentos dptoNew) {
-		// TODO Auto-generated method stub
-		
+	public List<Departamentos> listarDptos(String localidad) {
+		sesion = sF.openSession();
+		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad", Departamentos.class)
+				.setParameter("localidad", localidad);
+		List<Departamentos> lista = consulta.getResultList();
+		sesion.close();
+		return lista;
 	}
 
+	@Override
+	public List<Departamentos> listarDptosNombre(String nombre) {
+		sesion = sF.openSession();
+		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where dnombre=:nombre", Departamentos.class)
+				.setParameter("nombre", nombre);
+		List<Departamentos> lista = consulta.getResultList();
+		sesion.close();
+		return lista;
+	}
+
+	@Override
+	public int listarDptos(String localidad, String nombre) {
+		sesion = sF.openSession();
+		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad and dnombre=:nombre", Departamentos.class)
+				.setParameter("localidad", localidad)
+				.setParameter("nombre", nombre);
+		Departamentos dpto = consulta.getResultList().get(0);
+		sesion.close();
+		return dpto.getDeptNo();
+	}
+
+	
+	@Override
+	public Departamentos listarDptosLocNom(String localidad, String nombre) {
+		sesion = sF.openSession();
+		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad and dnombre=:nombre", Departamentos.class)
+				.setParameter("localidad", localidad)
+				.setParameter("nombre", nombre);
+		Departamentos dpto = consulta.getResultList().get(0);
+		sesion.close();
+		return dpto;
+	}
+
+	
 	@Override
 	public void modificarDpto(int dptoOld, Departamentos dptoNew) {
 		sesion = sF.openSession();
@@ -53,6 +91,17 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 	}
 
 	@Override
+	public void modificarDpto(Departamentos dptoOld, Departamentos dptoNew) {
+		sesion = sF.openSession();
+		Transaction t = sesion.beginTransaction();
+		dptoOld.setDnombre(dptoNew.getDnombre());
+		dptoOld.setLoc(dptoNew.getLoc());
+		sesion.merge(dptoOld);
+		t.commit();
+		sesion.close();
+	}
+
+	@Override
 	public void eliminarDpto(int dptoOld) {
 		sesion = sF.openSession();
 		Transaction t = sesion.beginTransaction();
@@ -61,18 +110,5 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 		t.commit();
 		sesion.close();
 	}
-
-	@Override
-	public List<Departamentos> listarDptos(String localidad) {
-		sesion = sF.openSession();
-		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad", Departamentos.class)
-				.setParameter("localidad", localidad);
-		
-		List<Departamentos> lista = consulta.getResultList();
-		sesion.close();
-		return lista;
-	}
-
-	
 
 }

@@ -14,23 +14,31 @@ public class MainApp {
 	
 	public static void main(String[] args) {
 		
-//		Departamentos dpto = new Departamentos("Filosofía", "Valladolid", null);
+//		System.out.println("\n\nLISTADO ANTES " + dptoDAO.listarDptos());
+		Departamentos dpto = new Departamentos("Ventas", "Valladolid", null);
 //		dptoDAO.anadirDpto(dpto);
+//		System.out.println("\n\nLISTADO DESPUES DE ANADIR " + dptoDAO.listarDptos());
+//		
+//		System.out.println("\n\nLISTADO POR LOCALIDAD VALLADOLID" + dptoDAO.listarDptos("Valladolid"));
+//		
+//		System.out.println("\n\nLISTADO POR NOMBRE DIGITALIZACIÓN" + dptoDAO.listarDptosNombre("Digitalización"));
+//		
+//		System.out.println("\\n\\nLISTADO POR NOMBRE Y LOCALIDAD DEVOLVIENDO ID" + dptoDAO.listarDptos("Tarragona", "Centralita"));
+//
+//		dpto = new Departamentos("Dineros", "Pucela", null);
+//		dptoDAO.modificarDpto(12, dpto);
+//		
+//		System.out.println("\n\nLISTADO DESPUES DE MODIFICAR EL 12 (Dineros, Pucela)" + dptoDAO.listarDptos());
 		
-		System.out.println("\n\nLISTADO ANTES " + dptoDAO.listarDptos());
+		Departamentos dptoOld = dptoDAO.listarDptosLocNom("Segovia", "Marketing");
+		dpto.setDnombre("Finanzas");
+		dptoDAO.modificarDpto(dptoOld, dpto);
 		
-//		dptoDAO.eliminarDpto(15);
-//		dptoDAO.eliminarDpto(14);
+		System.out.println("\n\nLISTADO DESPUES DE MODIFICAR Marketing por Finanzas en el 5" + dptoDAO.listarDptos());
 		
-		Departamentos dpto = new Departamentos("Centralita", "Tarragona", null);
-		dptoDAO.modificarDpto(13, dpto);
-		
-		System.out.println("\n\nLISTADO DESPUES " + dptoDAO.listarDptos("Segovia"));
-		
-		
-		
-		
-
+		dptoDAO.eliminarDpto(12);
+		System.out.println("\n\nLISTADO DESPUES DE BORRAR EL 12 " + dptoDAO.listarDptos());
+	
 	}
 
 }
