@@ -1,44 +1,30 @@
 package main;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import modelo.dao.DepartamentoDAO;
-import modelo.dao.DepartamentoDAOImpl;
-import modelo.dto.Departamentos;
 
-public class MainApp {
-	private static DepartamentoDAO dptoDAO = new DepartamentoDAOImpl();
-	
+public class MainApp extends Application{
+
 	public static void main(String[] args) {
+		// TODO con la aplicación JavaFX continuaremos cuando el personal del CAU nos solucione los problemas con la VM. 
+		// JavaFX NO ENTRA EN EL EXAMEN
 		
-//		System.out.println("\n\nLISTADO ANTES " + dptoDAO.listarDptos());
-		Departamentos dpto = new Departamentos("Ventas", "Valladolid", null);
-//		dptoDAO.anadirDpto(dpto);
-//		System.out.println("\n\nLISTADO DESPUES DE ANADIR " + dptoDAO.listarDptos());
-//		
-//		System.out.println("\n\nLISTADO POR LOCALIDAD VALLADOLID" + dptoDAO.listarDptos("Valladolid"));
-//		
-//		System.out.println("\n\nLISTADO POR NOMBRE DIGITALIZACIÓN" + dptoDAO.listarDptosNombre("Digitalización"));
-//		
-//		System.out.println("\\n\\nLISTADO POR NOMBRE Y LOCALIDAD DEVOLVIENDO ID" + dptoDAO.listarDptos("Tarragona", "Centralita"));
-//
-//		dpto = new Departamentos("Dineros", "Pucela", null);
-//		dptoDAO.modificarDpto(12, dpto);
-//		
-//		System.out.println("\n\nLISTADO DESPUES DE MODIFICAR EL 12 (Dineros, Pucela)" + dptoDAO.listarDptos());
-		
-		Departamentos dptoOld = dptoDAO.listarDptosLocNom("Segovia", "Marketing");
-		dpto.setDnombre("Finanzas");
-		dptoDAO.modificarDpto(dptoOld, dpto);
-		
-		System.out.println("\n\nLISTADO DESPUES DE MODIFICAR Marketing por Finanzas en el 5" + dptoDAO.listarDptos());
-		
-		dptoDAO.eliminarDpto(12);
-		System.out.println("\n\nLISTADO DESPUES DE BORRAR EL 12 " + dptoDAO.listarDptos());
-	
+		launch(args); // lanzar la aplicación JavaFX
 	}
 
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// Cargamos la vista FXML
+		Parent root = FXMLLoader.load(getClass().getResource("/Vista.fxml")); //ruta relativa a src/main/resources
+		//Crear la escena
+		Scene scene = new Scene(root);
+		//Configurar y mostrar la ventana principal
+		primaryStage.setTitle("Gestión de empresa");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 }

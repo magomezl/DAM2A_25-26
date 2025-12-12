@@ -67,4 +67,11 @@ public class Empleados implements java.io.Serializable {
 		this.apellido2 = apellido2;
 	}
 
+	@Override
+	public String toString() {
+		return "\nEmpleados [id=" + id + ", nombre=" + nombre + ", apellido1="
+				+ apellido1 + ", apellido2=" + apellido2 +  ", departamentos=" + departamentos.getDnombre() + " (" + 
+						departamentos.getLoc()  + ") " + "]";
+	}
+	
 }

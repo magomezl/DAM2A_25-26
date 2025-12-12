@@ -17,11 +17,18 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 	
 	@Override
 	public void anadirDpto(Departamentos dpto) {
-		// No dejar añadir departamento con mismo nombre y localidad
+	
 		sesion = sF.openSession();
-		Transaction t = sesion.beginTransaction();
-		sesion.persist(dpto);
-		t.commit();
+		Transaction t; 
+		if (sesion.createQuery("from Departamentos where loc=:localidad and dnombre=:nombre", Departamentos.class)
+				.setParameter("localidad", dpto.getLoc())
+				.setParameter("nombre", dpto.getDnombre())
+				.list()
+				.isEmpty()) {
+			t = sesion.beginTransaction();
+			sesion.persist(dpto);
+			t.commit();
+		}
 		sesion.close();
 	}
 
@@ -37,9 +44,9 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 	@Override
 	public List<Departamentos> listarDptos(String localidad) {
 		sesion = sF.openSession();
-		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad", Departamentos.class)
-				.setParameter("localidad", localidad);
-		List<Departamentos> lista = consulta.getResultList();
+		List<Departamentos> lista = sesion.createQuery("from Departamentos where loc=:localidad", Departamentos.class)
+				.setParameter("localidad", localidad)
+				.list();
 		sesion.close();
 		return lista;
 	}
@@ -47,15 +54,15 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 	@Override
 	public List<Departamentos> listarDptosNombre(String nombre) {
 		sesion = sF.openSession();
-		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where dnombre=:nombre", Departamentos.class)
-				.setParameter("nombre", nombre);
-		List<Departamentos> lista = consulta.getResultList();
+		List<Departamentos> lista = sesion.createQuery("from Departamentos where dnombre=:nombre", Departamentos.class)
+				.setParameter("nombre", nombre)
+				.getResultList();
 		sesion.close();
 		return lista;
 	}
 
 	@Override
-	public int listarDptos(String localidad, String nombre) {
+	public int listarDptos(String nombre, String localidad) {
 		sesion = sF.openSession();
 		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad and dnombre=:nombre", Departamentos.class)
 				.setParameter("localidad", localidad)
@@ -67,7 +74,7 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 
 	
 	@Override
-	public Departamentos listarDptosLocNom(String localidad, String nombre) {
+	public Departamentos listarDptosLocNom(String nombre, String localidad) {
 		sesion = sF.openSession();
 		TypedQuery<Departamentos> consulta = sesion.createQuery("from Departamentos where loc=:localidad and dnombre=:nombre", Departamentos.class)
 				.setParameter("localidad", localidad)
