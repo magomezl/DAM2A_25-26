@@ -4,6 +4,7 @@ C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\main\Ma
 C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dao\DepartamentoDAO.java
 C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dao\DepartamentoDAOImpl.java
 C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dao\EmpleadosDAO.java
-C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dao\EmpleadosImpl.java
+C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dao\EmpleadosDAOImpl.java
 C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dto\Departamentos.java
 C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dto\Empleados.java
+C:\Users\magomezl\eclipse-workspace\ejercicio_18_Hibernate\src\main\java\modelo\dto\JavaFX\DepartamentoDTOPropiedadesJavaFX.java

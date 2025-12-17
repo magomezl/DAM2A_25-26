@@ -117,5 +117,14 @@ public class DepartamentoDAOImpl implements DepartamentoDAO {
 		t.commit();
 		sesion.close();
 	}
+	
+	@Override
+	public void eliminarDpto(Departamentos dpto) {
+		sesion = sF.openSession();
+		Transaction t = sesion.beginTransaction();
+		sesion.remove(dpto);
+		t.commit();
+		sesion.close();
+	}
 
 }

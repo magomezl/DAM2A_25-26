@@ -26,6 +26,7 @@ public interface DepartamentoDAO {
 	void modificarDpto(int dptoOld, Departamentos dptoNew);
 	
 	void eliminarDpto(int dptoOld);
+	void eliminarDpto(Departamentos dpto);
 	
 	/**
 	 * proporciona todos los datos de los departamentos de la DB
