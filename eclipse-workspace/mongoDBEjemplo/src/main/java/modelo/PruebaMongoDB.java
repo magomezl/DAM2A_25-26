@@ -2,6 +2,7 @@ package modelo;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.bson.conversions.Bson;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -12,6 +13,7 @@ import static com.mongodb.client.model.Updates.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class PruebaMongoDB {
@@ -25,14 +27,28 @@ public class PruebaMongoDB {
 //			mostrarNovelas();
 //			mostrarAutores("Checa", 1900);
 //			modificarGenero("novela infantil", "Fantasía");
+			borrarLibroAutor("l. frank baum");
 //			anadirDocEmbebido();
+//			anadirDoc();
+//			anadirDocReferenciadoObjectId();
+			anadirDocReferenciadoId();
+			 if (!comprobarLibroExiste("El maravilloso Mago de Oz", "l. Frank Baum") ) {
+				 System.out.println("No existe");
+			 }else {
+				 System.out.println("Ya existe");
+			 }
+			
+			
+			
+			
 //			anadirDocAutor();
 //			anadirDocReferenciadoObjectId();
 			
 //			modificarAnadirPropDocAutor();
 //			anadirDocReferenciadoId();
 //			modificarEliminarPropDocAutor();
-			System.out.println("Autores con nacionalidad española " + autoresNacionalidad("española"));
+//			System.out.println("Autores con nacionalidad española " + autoresNacionalidad("española"));
+//			mostrarPorGenero("Novela");
 			
 			
 			
@@ -44,6 +60,59 @@ public class PruebaMongoDB {
 
 	
 	
+	private static void borrarLibroAutor(String autor) {
+		
+		List<Bson> filtros = new ArrayList<>();
+		Pattern patron = Pattern.compile("^"+ Pattern.quote(autor)+"$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		
+		filtros.add(regex("autor", patron));
+		
+		ObjectId id = db.getCollection("autores").find(regex("nombre", patron)).first().getObjectId("_id");
+		filtros.add(eq("autor", id));
+		
+		filtros.add(eq("autor.nombre", patron));
+		
+		int idI = db.getCollection("autores").find(regex("nombre", patron)).first().getInteger("id");
+		filtros.add(eq("autor", idI));
+		
+		db.getCollection("libros").deleteMany(or(filtros));
+	}
+
+	private static boolean comprobarLibroExiste(String titulo, String autor) {
+		List<Bson> filtrosAutor = new ArrayList<>();
+		Pattern patronAutor = Pattern.compile("^"+ Pattern.quote(autor)+"$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		
+		filtrosAutor.add(regex("autor", patronAutor));
+		
+		ObjectId id = db.getCollection("autores").find(regex("nombre", patronAutor)).first().getObjectId("_id");
+		filtrosAutor.add(eq("autor", id));
+		
+		filtrosAutor.add(regex("autor.nombre", patronAutor));
+		
+		int idI = db.getCollection("autores").find(regex("nombre", patronAutor)).first().getInteger("id");
+		filtrosAutor.add(eq("autor", idI));
+		
+		Pattern patronTitulo = Pattern.compile("^"+ Pattern.quote(titulo)+"$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		
+		if (db.getCollection("libros").find(and(regex("titulo", patronTitulo), or(filtrosAutor))).first()!=null) {
+			return true; 
+		}
+		return false;
+	}
+	
+	
+
+	private static void mostrarPorGenero(String genero) {
+		Pattern patron = Pattern.compile("^"+ Pattern.quote(genero)+"$", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		
+		FindIterable<Document> resultados = db.getCollection("libros").find(regex("genero", patron));
+		for(Document doc: resultados) {
+			System.out.println(doc);
+		}
+	}
+
+
+
 	/**
 	 * 
 	 * @param nacionalidad
@@ -190,9 +259,8 @@ public class PruebaMongoDB {
 		db.getCollection("libros").insertOne(doc);
 		
 	}
+	// TODO método al que se le pasa como parámetro el nombre de un autor y elimina todos los libros del mismo
 	
-	
-	//TODO método mostrar por genero pasandole el genero como parámetro
 	// TODO Modificar los métodos de añadir de manera que no nos deje añadir dos libros con el mismo nombre y autor
 
 }
