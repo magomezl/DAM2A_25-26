@@ -1,3 +1,12 @@
 C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\controlador\Controlador.java
 C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\main\App.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\dao\mongodb\MongoDAO.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\dao\mongodb\MongoDAOImpl.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\database\HibernateUtil.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\database\MongoDBClient.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\dto\Autores.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\dto\Generos.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\dto\Libros.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\dto\Nacionalidades.java
+C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\dto\ObservablesJFX\GenericaDTOPropiedadesJavaFX.java
 C:\Users\magomezl\eclipse-workspace\mongoDBEjemplo\src\main\java\modelo\PruebaMongoDB.java

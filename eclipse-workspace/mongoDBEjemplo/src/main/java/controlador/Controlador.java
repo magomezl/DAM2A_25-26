@@ -1,14 +1,23 @@
 package controlador;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import modelo.dao.mongodb.MongoDAO;
+import modelo.dao.mongodb.MongoDAOImpl;
+import modelo.dto.ObservablesJFX.GenericaDTOPropiedadesJavaFX;
 
 public class Controlador {
+	private static MongoDAO mongoDAO = new MongoDAOImpl();
 
     @FXML
     private ComboBox<?> ComboAutores;
@@ -17,7 +26,7 @@ public class Controlador {
     private TableColumn<?, ?> colAnioLibro;
 
     @FXML
-    private TableColumn<?, ?> colGeneroLibro;
+    private TableColumn<GenericaDTOPropiedadesJavaFX, String> colGeneroLibro;
 
     @FXML
     private TableColumn<?, ?> colMuerteAutor;
@@ -48,6 +57,9 @@ public class Controlador {
 
     @FXML
     private TableColumn<?, ?> colTituloLibro;
+    
+    @FXML
+    private TableColumn<?, ?> colGeneroLibroEnLibros;
 
     @FXML
     private TableView<?> tablaAutores;
@@ -56,7 +68,7 @@ public class Controlador {
     private TableView<?> tablaAutorias;
 
     @FXML
-    private TableView<?> tablaGeneros;
+    private TableView<GenericaDTOPropiedadesJavaFX> tablaGeneros;
 
     @FXML
     private TableView<?> tablaLibros;
@@ -186,4 +198,19 @@ public class Controlador {
 
     }
 
+    @FXML
+    void initialize() {
+    	//TODO
+    	colGeneroLibro.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+    	List<GenericaDTOPropiedadesJavaFX> algeneroJFX = new ArrayList<GenericaDTOPropiedadesJavaFX>();
+    	for (String genero: mongoDAO.getGeneros()) {
+    		System.out.println(genero);
+    		GenericaDTOPropiedadesJavaFX generoJFX = new GenericaDTOPropiedadesJavaFX(genero);
+    		algeneroJFX.add(generoJFX);
+    	}
+    	tablaGeneros.setItems(FXCollections.observableArrayList(algeneroJFX));
+    }
+    
+    
+    
 }
