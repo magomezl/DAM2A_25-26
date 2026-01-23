@@ -12,12 +12,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import modelo.dao.hibernate.HibernateDAO;
+import modelo.dao.hibernate.HibernateDAOImpl;
 import modelo.dao.mongodb.MongoDAO;
 import modelo.dao.mongodb.MongoDAOImpl;
+import modelo.dto.Autores;
+import modelo.dto.Libros;
 import modelo.dto.ObservablesJFX.GenericaDTOPropiedadesJavaFX;
 
 public class Controlador {
 	private static MongoDAO mongoDAO = new MongoDAOImpl();
+	private static HibernateDAO hibernateDAO = new HibernateDAOImpl();
 
     @FXML
     private ComboBox<?> ComboAutores;
@@ -200,6 +205,8 @@ public class Controlador {
 
     @FXML
     void initialize() {
+    	
+    	/**
     	//TODO
     	colGeneroLibro.setCellValueFactory(new PropertyValueFactory<>("nombre"));
     	List<GenericaDTOPropiedadesJavaFX> algeneroJFX = new ArrayList<GenericaDTOPropiedadesJavaFX>();
@@ -209,8 +216,22 @@ public class Controlador {
     		algeneroJFX.add(generoJFX);
     	}
     	tablaGeneros.setItems(FXCollections.observableArrayList(algeneroJFX));
+    	**/
+    	
+    	
+    	/**
+    	 * Con estas dos llamadas, obtengo dos listas de objetos desacopladas (detached/transient), 
+    	 * es decir, no están gestionadas por hibernate (salvo porque usamos las clases de hibernate como dto
+    	 * (objetos de transferencia de datos), algo que en proyectos reales no haríamos para ganarantizar desacoplamiento,
+    	 *  	  
+    	 */
+    	List<Autores> autores =  mongoDAO.getAutores();
+    	List<Libros> libros = mongoDAO.getLibros();
+    	// Guardo en MySQL a través de hibernate
+    	hibernateDAO.anadirAutores(autores);
+    	
+    	// TODO sin acabar. Seguir por aquí.
+    	hibernateDAO.anadirLibros(libros);
     }
-    
-    
     
 }
