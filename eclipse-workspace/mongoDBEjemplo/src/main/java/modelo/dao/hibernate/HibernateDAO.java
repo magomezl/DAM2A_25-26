@@ -1,8 +1,10 @@
 package modelo.dao.hibernate;
 
 import java.util.Collection;
+import java.util.List;
 
 import modelo.dto.Autores;
+import modelo.dto.Generos;
 import modelo.dto.Libros;
 
 public interface HibernateDAO {
@@ -14,5 +16,9 @@ public interface HibernateDAO {
 	int anadirAutores(Collection<Autores> autores);
 
 	int anadirLibros(Collection<Libros> libros);
+
+	<T> List<T> getAll(Class<T> entityClass);
+
+	
 	
 }

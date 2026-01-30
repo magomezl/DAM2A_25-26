@@ -17,7 +17,9 @@ import modelo.dao.hibernate.HibernateDAOImpl;
 import modelo.dao.mongodb.MongoDAO;
 import modelo.dao.mongodb.MongoDAOImpl;
 import modelo.dto.Autores;
+import modelo.dto.Generos;
 import modelo.dto.Libros;
+import modelo.dto.Nacionalidades;
 import modelo.dto.ObservablesJFX.GenericaDTOPropiedadesJavaFX;
 
 public class Controlador {
@@ -29,9 +31,18 @@ public class Controlador {
 
     @FXML
     private TableColumn<?, ?> colAnioLibro;
+    
+    @FXML
+    private TableView<GenericaDTOPropiedadesJavaFX> tablaGeneros;
 
     @FXML
     private TableColumn<GenericaDTOPropiedadesJavaFX, String> colGeneroLibro;
+    
+    @FXML
+    private TableView<GenericaDTOPropiedadesJavaFX> tablaNacionalidades;
+    
+    @FXML
+    private TableColumn<GenericaDTOPropiedadesJavaFX, String> colNacionalidad;
 
     @FXML
     private TableColumn<?, ?> colMuerteAutor;
@@ -45,8 +56,7 @@ public class Controlador {
     @FXML
     private TableColumn<?, ?> colNacimientoAutoria;
 
-    @FXML
-    private TableColumn<?, ?> colNacionalidad;
+   
 
     @FXML
     private TableColumn<?, ?> colNacionalidadAutor;
@@ -72,14 +82,12 @@ public class Controlador {
     @FXML
     private TableView<?> tablaAutorias;
 
-    @FXML
-    private TableView<GenericaDTOPropiedadesJavaFX> tablaGeneros;
+   
 
     @FXML
     private TableView<?> tablaLibros;
 
-    @FXML
-    private TableView<?> tablaNacionalidades;
+   
 
     @FXML
     private TextField txtAnioLibro;
@@ -227,14 +235,49 @@ public class Controlador {
     	 */
     	List<Autores> autores =  mongoDAO.getAutores();
     	List<Libros> libros = mongoDAO.getLibros();
-    	
-//    	System.out.println(autores);
-//    	System.out.println(libros);
+
     	// Guardo en MySQL a través de hibernate
-    	hibernateDAO.anadirAutores(autores);
+//    	hibernateDAO.anadirAutores(autores);
+//    	hibernateDAO.anadirLibros(libros);
     	
-    	// TODO sin acabar. Seguir por aquí.
-    	hibernateDAO.anadirLibros(libros);
+    	/**
+    	
+    	 @FXML
+    	    private TableView<GenericaDTOPropiedadesJavaFX> tablaGeneros;
+
+    	    @FXML
+    	    private TableColumn<GenericaDTOPropiedadesJavaFX, String> colGeneroLibro;
+    	    
+    	    @FXML
+    	    private TableView<GenericaDTOPropiedadesJavaFX> tablaNacionalidades;
+    	    
+    	    @FXML
+    	    private TableColumn<GenericaDTOPropiedadesJavaFX, String> colNacionalidad;
+    	
+    	**/
+    	
+    	// Establezco el origen de los datos de la columna
+    	colGeneroLibro.setCellValueFactory(new PropertyValueFactory("nombre"));
+    	//Doto a la tabla de contenido
+    	List<GenericaDTOPropiedadesJavaFX> algenericaJFX = new ArrayList<GenericaDTOPropiedadesJavaFX>(); 
+    	for (Generos genero: hibernateDAO.getAll(Generos.class)) {
+    		GenericaDTOPropiedadesJavaFX genericaJFX = new GenericaDTOPropiedadesJavaFX(genero.getIdGenero(), genero.getNombre());
+    		algenericaJFX.add(genericaJFX);
+    	}
+    	tablaGeneros.setItems(FXCollections.observableArrayList(algenericaJFX));
+    	
+    	algenericaJFX.clear();
+    	colNacionalidad.setCellValueFactory(new PropertyValueFactory("nombre"));
+    	for (Nacionalidades item: hibernateDAO.getAll(Nacionalidades.class)) {
+    		GenericaDTOPropiedadesJavaFX genericaJFX = new GenericaDTOPropiedadesJavaFX(item.getIdNacionalidad(), item.getNombre());
+    		algenericaJFX.add(genericaJFX);
+    	}
+    	tablaNacionalidades.setItems(FXCollections.observableArrayList(algenericaJFX));
+    	
+    	
     }
+    
+    
+    
     
 }

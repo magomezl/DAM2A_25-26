@@ -2,6 +2,7 @@ package modelo.dao.hibernate;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
@@ -155,6 +156,14 @@ public class HibernateDAOImpl implements HibernateDAO {
 			if (anadirLibros(libro)) i++; 
 		}
 		return i;
+	}
+
+	@Override
+	public <T> List<T> getAll(Class<T> entityClass) {
+		try(Session sesion = sF.openSession()){
+			String hql = "FROM " + entityClass.getSimpleName();
+			return sesion.createSelectionQuery(hql, entityClass).getResultList();
+		}
 	}
 
 }
