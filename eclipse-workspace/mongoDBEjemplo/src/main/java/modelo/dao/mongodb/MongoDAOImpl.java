@@ -71,9 +71,7 @@ public class MongoDAOImpl implements MongoDAO {
 		List<Libros> lista = new ArrayList<Libros>();
 		for(Document doc: db.getCollection("libros").find()) {
 			Libros l = new Libros();
-			
 			l.setTitulo(doc.getString("titulo"));
-			
 			// En mongodb cada libro puede tener más de un genero pero en Hibernate (en la db) 
 			// solo tenemos un genero por libro, entonces determinamos que 
 			// si hay más de un genero en mongo cogemos el primero 
@@ -109,6 +107,7 @@ public class MongoDAOImpl implements MongoDAO {
 			}
 			l.setAutoreses(autoresSet);
 			//TODO
+			lista.add(l);
 		}
 		return lista;
 	}

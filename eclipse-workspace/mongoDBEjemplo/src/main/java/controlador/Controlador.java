@@ -227,6 +227,9 @@ public class Controlador {
     	 */
     	List<Autores> autores =  mongoDAO.getAutores();
     	List<Libros> libros = mongoDAO.getLibros();
+    	
+//    	System.out.println(autores);
+//    	System.out.println(libros);
     	// Guardo en MySQL a través de hibernate
     	hibernateDAO.anadirAutores(autores);
     	

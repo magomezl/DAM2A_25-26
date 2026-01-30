@@ -1,6 +1,8 @@
 package modelo.dao.hibernate;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,7 +25,6 @@ public class HibernateDAOImpl implements HibernateDAO {
 		sesion = sF.openSession();
 		Transaction tx = sesion.beginTransaction();
 		try {
-	
 			// Busco y persisto si no existe en la db la nacionalidad
 			Nacionalidades nacAutor = autor.getNacionalidades();
 			//TODO método
@@ -32,12 +33,13 @@ public class HibernateDAOImpl implements HibernateDAO {
 					.setParameter("nombreP", nacAutor.getNombre().toLowerCase())
 					.uniqueResult();
 				if (nacEnBD != null) {
+					// Existe la nacionalidad en la db -> la tomo 
 					autor.setNacionalidades(nacEnBD);
 				}else {
+					// No existe -> la guardo en la DB 
 					sesion.persist(nacAutor);
 				}
 			}
-		
 			sesion.persist(autor);
 			tx.commit();
 			retorno = true;
@@ -56,7 +58,6 @@ public class HibernateDAOImpl implements HibernateDAO {
 		sesion = sF.openSession();
 		Transaction tx = sesion.beginTransaction();
 		try {
-		
 			// Gestión de Generos
 			Generos genLibro = libro.getGeneros();
 			if (genLibro != null) {
@@ -73,9 +74,10 @@ public class HibernateDAOImpl implements HibernateDAO {
 			}
 			
 			// Gestión de autoreses. Tengo que mirar si los autores están en la DB. Si no están los persisto, si están los uso
-			
+			Set<Autores> autoresProcesados = new HashSet<>();
 			if (libro.getAutoreses()!=null) {
 				for (Object o: libro.getAutoreses()) {
+					
 					Autores autor = (Autores)o;
 					
 					Nacionalidades nacAutor = autor.getNacionalidades();
@@ -85,22 +87,47 @@ public class HibernateDAOImpl implements HibernateDAO {
 							.setParameter("nombreP", nacAutor.getNombre().toLowerCase())
 							.uniqueResult();
 						if (nacEnBD != null) {
+							// Si existe la nacionalidad la tomo
 							autor.setNacionalidades(nacEnBD);
 						}else {
+							// Si no existe la persisto
 							sesion.persist(nacAutor);
 						}
 					}
-					
-					// TODO Autores 
-					
-					
-					
-					
-				}
+					// Autores 
+					// Vemos si existe el autor 
+					Autores autorBD = sesion.createSelectionQuery("FROM Autores WHERE LOWER(nombre)= :nombreP AND nacimiento = :anio", Autores.class)
+							.setParameter("nombreP", autor.getNombre().toLowerCase())
+							.setParameter("anio", autor.getNacimiento())
+							.uniqueResult();
+						if (autorBD != null) {
+							// Si existe el autore en la DB lo añado
+							autoresProcesados.add(autorBD);
+						}else {
+							// Si no existe la persisto
+							sesion.persist(autor);
+							autoresProcesados.add(autor);
+						}
+				} // for
+				libro.setAutoreses(autoresProcesados);
+			}// if
+			sesion.persist(libro);
+			
+			/**
+			 * Antes de persistir el libro y para que se almacenen registros en la tabla que 
+			 * representa la relación muchos a muchos hay que mantener la relación bidireccional,
+			 * es decir, tengo que añadir el libro al Set libroses de cada autor
+			 * 
+			 * Ya que si no lo hago Hibernate solo conoce la relación entre libros y autores desde
+			 * el lado del libro. También tiene que conocerla desde el lado del autor.
+			 * En este caso tengo que coger los autoresProcesados y añadirles el libro
+			 * 
+			 */
+			for (Autores au: autoresProcesados) {
+				au.getLibroses().add(libro);
 			}
-			
-			
-			
+			tx.commit();
+			retorno = true;
 			
 		}catch (Exception e) {
 			tx.rollback();
