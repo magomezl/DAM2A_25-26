@@ -144,7 +144,6 @@
                                  <columns>
                                     <TableColumn fx:id="colTituloLibro" prefWidth="353.0" text="Título" />
                                     <TableColumn fx:id="colGeneroLibroEnLibros" prefWidth="65.0" text="Genero" />
-                                    <TableColumn fx:id="colAnioLibro" prefWidth="77.0" text="Año" />
                                  </columns>
                               </TableView>
                               <HBox prefHeight="60.0" prefWidth="640.0">

@@ -166,4 +166,13 @@ public class HibernateDAOImpl implements HibernateDAO {
 		}
 	}
 
+	@Override
+	public List<Autores> getAllAutoresConNacionalidad() {
+		try(Session sesion = sF.openSession()){
+			String hql = "SELECT a FROM Autores a LEFT JOIN FETCH a.nacionalidades";
+			List<Autores> autoresAL = sesion.createSelectionQuery(hql, Autores.class).getResultList();
+			return autoresAL;		
+		}
+	}
+
 }

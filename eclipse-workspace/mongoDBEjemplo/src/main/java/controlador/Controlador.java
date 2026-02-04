@@ -2,6 +2,7 @@ package controlador;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import modelo.dto.Autores;
 import modelo.dto.Generos;
 import modelo.dto.Libros;
 import modelo.dto.Nacionalidades;
+import modelo.dto.ObservablesJFX.AutorDTOPropiedadesJavaFX;
 import modelo.dto.ObservablesJFX.GenericaDTOPropiedadesJavaFX;
 
 public class Controlador {
@@ -44,29 +46,39 @@ public class Controlador {
     @FXML
     private TableColumn<GenericaDTOPropiedadesJavaFX, String> colNacionalidad;
 
+    
     @FXML
-    private TableColumn<?, ?> colMuerteAutor;
+    private TableView<AutorDTOPropiedadesJavaFX> tablaAutores;
+    
+    @FXML
+    private TableColumn<AutorDTOPropiedadesJavaFX, String> colNombreAutor;
+    
+    @FXML
+    private TableColumn<AutorDTOPropiedadesJavaFX, String> colNacionalidadAutor;
+
+    @FXML
+    private TableColumn<AutorDTOPropiedadesJavaFX, Integer> colMuerteAutor;
+    
+    @FXML
+    private TableColumn<AutorDTOPropiedadesJavaFX, Integer> colNacimientoAutor;
+    
+    
 
     @FXML
     private TableColumn<?, ?> colMuerteAutoria;
 
-    @FXML
-    private TableColumn<?, ?> colNacimientoAutor;
+    
 
     @FXML
     private TableColumn<?, ?> colNacimientoAutoria;
 
    
 
-    @FXML
-    private TableColumn<?, ?> colNacionalidadAutor;
-
+    
     @FXML
     private TableColumn<?, ?> colNacionalidadAutoria;
 
-    @FXML
-    private TableColumn<?, ?> colNombreAutor;
-
+   
     @FXML
     private TableColumn<?, ?> colNombreAutoria;
 
@@ -76,8 +88,7 @@ public class Controlador {
     @FXML
     private TableColumn<?, ?> colGeneroLibroEnLibros;
 
-    @FXML
-    private TableView<?> tablaAutores;
+    
 
     @FXML
     private TableView<?> tablaAutorias;
@@ -210,6 +221,26 @@ public class Controlador {
     void seleccionarLibro(MouseEvent event) {
 
     }
+    
+    /**
+    cargarDatosGenerico (Generos.class, 
+	    	Generos::getIdGenero,
+	    	Generos::getNombre,
+	    	this.tablaGeneros);
+    **/
+    private <T> void cargarDatosGenerico (Class<T> entityClass, 
+    		Function<T, Number> idExtractor, // admite Integer, Long, int ...
+    		Function<T, String> nombreExtractor,
+    		TableView<GenericaDTOPropiedadesJavaFX> tablaDestino ) {
+	
+    	List<GenericaDTOPropiedadesJavaFX> algenericaJFX = new ArrayList<GenericaDTOPropiedadesJavaFX>(); 
+    	
+    	for (T item: hibernateDAO.getAll(entityClass)) {
+    		GenericaDTOPropiedadesJavaFX genericaJFX = new GenericaDTOPropiedadesJavaFX((int)idExtractor.apply(item), nombreExtractor.apply(item));
+    		algenericaJFX.add(genericaJFX);
+    	}
+    	tablaDestino.setItems(FXCollections.observableArrayList(algenericaJFX));
+    }
 
     @FXML
     void initialize() {
@@ -259,25 +290,55 @@ public class Controlador {
     	// Establezco el origen de los datos de la columna
     	colGeneroLibro.setCellValueFactory(new PropertyValueFactory("nombre"));
     	//Doto a la tabla de contenido
+    	/**
+    	//Alternativa al método genérico más complicado pero más eficiente
     	List<GenericaDTOPropiedadesJavaFX> algenericaJFX = new ArrayList<GenericaDTOPropiedadesJavaFX>(); 
     	for (Generos genero: hibernateDAO.getAll(Generos.class)) {
     		GenericaDTOPropiedadesJavaFX genericaJFX = new GenericaDTOPropiedadesJavaFX(genero.getIdGenero(), genero.getNombre());
     		algenericaJFX.add(genericaJFX);
     	}
     	tablaGeneros.setItems(FXCollections.observableArrayList(algenericaJFX));
+    	**/
+    	cargarDatosGenerico (Generos.class, 
+    	    	Generos::getIdGenero,
+    	    	Generos::getNombre,
+    	    	this.tablaGeneros);
+    			
     	
-    	algenericaJFX.clear();
+//    	algenericaJFX.clear();
+    	
     	colNacionalidad.setCellValueFactory(new PropertyValueFactory("nombre"));
+    	cargarDatosGenerico (Nacionalidades.class, 
+    			Nacionalidades::getIdNacionalidad,
+    			Nacionalidades::getNombre,
+    	    	this.tablaNacionalidades);
+    			
+    	
+    	/**
+    	 // Alternativa al método generico 
     	for (Nacionalidades item: hibernateDAO.getAll(Nacionalidades.class)) {
     		GenericaDTOPropiedadesJavaFX genericaJFX = new GenericaDTOPropiedadesJavaFX(item.getIdNacionalidad(), item.getNombre());
     		algenericaJFX.add(genericaJFX);
     	}
     	tablaNacionalidades.setItems(FXCollections.observableArrayList(algenericaJFX));
+    	**/
+    	//TODO FALTABA ESTO PARA QUE SE MOSTRARÄN LOS DATOS Y LA CONSULTA CORRECTA QUE TENGO QUE EXPLICAR
+    	this.colNombreAutor.setCellValueFactory(new PropertyValueFactory("nombre"));
+    	this.colMuerteAutoria.setCellValueFactory(new PropertyValueFactory("muerte"));
+    	this.colNacimientoAutor.setCellValueFactory(new PropertyValueFactory("nacimiento"));
+    	this.colNacionalidadAutor.setCellValueFactory(new PropertyValueFactory("nacionalidad"));
     	
-    	
-    }
-    
-    
-    
-    
+    	List<AutorDTOPropiedadesJavaFX> algenericaJFX = new ArrayList<AutorDTOPropiedadesJavaFX>(); 
+    	for (Autores item: hibernateDAO.getAllAutoresConNacionalidad()) {
+    		AutorDTOPropiedadesJavaFX genericaJFX = new AutorDTOPropiedadesJavaFX(item.getIdAutor(), item.getNombre(), item.getNacionalidades().getNombre(), item.getNacimiento(), 
+    				item.getMuerte()!=null ? item.getMuerte() : 0); 
+    		algenericaJFX.add(genericaJFX);
+    	}
+    	this.tablaAutores.setItems(FXCollections.observableArrayList(algenericaJFX));
+   
+	
+		
+	}
 }
+   
+

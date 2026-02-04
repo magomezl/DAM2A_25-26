@@ -19,6 +19,8 @@ public interface HibernateDAO {
 
 	<T> List<T> getAll(Class<T> entityClass);
 
+	List<Autores> getAllAutoresConNacionalidad();
+
 	
 	
 }
