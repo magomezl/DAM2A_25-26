@@ -119,10 +119,10 @@
                               </TableView>
                               <HBox prefHeight="60.0" prefWidth="640.0">
                                  <children>
-                                    <TextField fx:id="txtNombreAutor" prefHeight="25.0" prefWidth="345.0" promptText="Nombre" HBox.hgrow="ALWAYS" />
-                                    <TextField fx:id="txtNacionalidadAutor" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="130.0" promptText="Nacionalidad" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="txtNombreAutor" prefHeight="25.0" prefWidth="194.0" promptText="Nombre" HBox.hgrow="ALWAYS" />
                                     <TextField fx:id="txtNacimientoAutor" layoutX="234.0" layoutY="10.0" prefHeight="25.0" prefWidth="130.0" promptText="Año Nacimiento" />
                                     <TextField fx:id="txtMuerteAutor" layoutX="443.0" layoutY="10.0" prefHeight="25.0" prefWidth="103.0" promptText="Año Muerte" />
+                                    <ComboBox fx:id="cmbNacionalidadAutor" prefHeight="25.0" prefWidth="171.0" promptText="Nacionalidad" />
                                  </children>
                               </HBox>
                               <HBox layoutX="10.0" layoutY="158.0" prefHeight="60.0" prefWidth="640.0">

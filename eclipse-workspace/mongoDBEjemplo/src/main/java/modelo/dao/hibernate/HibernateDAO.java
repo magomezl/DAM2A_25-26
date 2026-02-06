@@ -6,6 +6,7 @@ import java.util.List;
 import modelo.dto.Autores;
 import modelo.dto.Generos;
 import modelo.dto.Libros;
+import modelo.dto.Nacionalidades;
 
 public interface HibernateDAO {
 	
@@ -20,6 +21,12 @@ public interface HibernateDAO {
 	<T> List<T> getAll(Class<T> entityClass);
 
 	List<Autores> getAllAutoresConNacionalidad();
+
+	List<Libros> getAllLibrosConGenero();
+
+	List<Autores> buscarAutoresDeLibros(String tituloLibro);
+
+	
 
 	
 	

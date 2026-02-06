@@ -49,4 +49,10 @@ public class Nacionalidades implements java.io.Serializable {
 		this.autoreses = autoreses;
 	}
 
+	@Override
+	public String toString() {
+		return nombre;
+	}
+
+	
 }

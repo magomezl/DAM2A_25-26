@@ -169,8 +169,33 @@ public class HibernateDAOImpl implements HibernateDAO {
 	@Override
 	public List<Autores> getAllAutoresConNacionalidad() {
 		try(Session sesion = sF.openSession()){
+//			String hql = "FROM Autores";  Con esta consulta no nos trae la nacionalidad por ser lazy. Tenemos que forzarlo con la siguiente consulta
 			String hql = "SELECT a FROM Autores a LEFT JOIN FETCH a.nacionalidades";
 			List<Autores> autoresAL = sesion.createSelectionQuery(hql, Autores.class).getResultList();
+			return autoresAL;		
+		}
+	}
+
+	@Override
+	public List<Libros> getAllLibrosConGenero() {
+		try(Session sesion = sF.openSession()){
+			String hql = "SELECT l FROM Libros l LEFT JOIN FETCH l.generos";
+			List<Libros> librosAL = sesion.createSelectionQuery(hql, Libros.class).getResultList();
+			System.out.println(librosAL);
+			return librosAL;		
+		}
+	}
+
+	@Override
+	public List<Autores> buscarAutoresDeLibros(String tituloLibro) {
+		if (tituloLibro == null || tituloLibro.trim().isEmpty()) {
+			return null;
+		}
+		try(Session sesion = sF.openSession()){
+			String hql = "SELECT DISTINCT a FROM Libros l JOIN l.autoreses a LEFT JOIN FETCH a.nacionalidades WHERE lower(l.titulo) LIKE :patronTituloLibro";
+			List<Autores> autoresAL = sesion.createSelectionQuery(hql, Autores.class)
+					.setParameter("patronTituloLibro", "%" + tituloLibro +"%")
+					.getResultList();
 			return autoresAL;		
 		}
 	}
