@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,8 +24,11 @@ public class Parseo_SAX_Excel {
 		try {
 			SAXParser parseador = SAXParserFactory.newInstance().newSAXParser();
 			Manejador handle = new Manejador();
-			parseador.parse(new File("src/main/resources/Files/academia.xml"), handle);
+//			parseador.parse(new File("src/main/resources/Files/academia.xml"), handle);
 //			System.out.println(handle.getLista());
+			
+			InputStream xml = Parseo_SAX_Excel.class.getClassLoader().getResourceAsStream("resources/Files/academia.xml");
+			parseador.parse(xml, handle);
 			
 			generarExcel(handle.getLista());
 			
